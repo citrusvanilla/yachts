@@ -1,0 +1,314 @@
+/******************** GENERAL *************************/
+
+body {
+  color: #eee;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
+
+a,
+a:visited {
+  color: #ccc;
+}
+
+a:hover,
+a:active {
+  color: #08f;
+}
+
+
+/******************** DEVICE *************************/
+
+#desktop {}
+
+.mobile {
+  display: none;
+}
+
+
+/******************** SIDEBAR *************************/
+
+#sidebar {
+  position: absolute;
+  z-index: 1012022;
+  top: 10px;
+  right: 10px;
+  width: 150px;
+}
+
+
+/******************** LEGEND *************************/
+
+.av {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.caption {
+  display: inline-block;
+}
+
+#legend {
+  z-index: 1012022;
+  background: rgba(12, 12, 12, 0.85);
+  font-size: 12px;
+}
+
+#legend-content {
+  padding: 5px;
+  display: block;
+}
+
+.line {
+  line-height: 18px;
+  display: flex;
+}
+
+#y1 {
+  color: #0000ff;
+}
+
+#y2 {
+  color: #FDBF6F;
+}
+
+#y3 {
+  color: #e066ff;
+}
+
+#y4 {
+  color: #FF7F00;
+}
+
+#y5 {
+  color: #FFD700;
+}
+
+#y6 {
+  color: #6A3D9A;
+}
+
+#y7 {
+  color: #FF1493;
+}
+
+#y8 {
+  color: #1C86EE;
+}
+
+#y9 {
+  color: #E31A1C;
+}
+
+#y10 {
+  color: #008B00;
+}
+
+#y11 {
+  color: #7ec0ee;
+}
+
+#y12 {
+  color: #800000;
+}
+
+#y13 {
+  color: #90ee90;
+}
+
+#y14 {
+  color: #00ced1;
+}
+
+#y15 {
+  color: #eee685;
+}
+
+#y16 {
+  color: #CAB2D6;
+}
+
+#y17 {
+  color: #FB9A99;
+}
+
+#y18 {
+  color: #36648b;
+}
+
+
+/******************** INFO *************************/
+
+#info {
+ position: absolute;
+ z-index: 1012022;
+ top: 10px;
+ left: 10px;
+ width: 300px;
+ background: rgba(12, 12, 12, 0.8);
+ color: #eee;
+ padding: 10px;
+}
+
+#info-content {
+ font-size: 13px;
+}
+
+#info-header {
+ font-weight: 400;
+ margin-bottom: 10px;
+ text-align: left;;
+ font-size: 15px;
+}
+
+#info-zip,
+#info-prov {
+  display: none;
+}
+
+.item {
+  font-size: 12px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.item-id {
+  display: inline-block;
+}
+
+.item-name {
+  display: inline-block;
+}
+
+.item-value {
+  display: inline-block;
+  float: right;
+}
+
+.param-subheader {}
+
+.param {
+  line-height: 28px;
+}
+
+.param-value {
+  float: right;
+  display: inline-block;
+  color: #eee;
+  font-size: 14px;
+}
+
+.param-caption {
+  display: inline-block;
+  color: #ccc;
+  font-size: 12px;
+}
+
+.x.axis text,
+.y.axis text {
+  fill: #aaa;
+  font-size: 10px;
+}
+
+.x.axis line,
+.y.axis line {
+  stroke: #aaa;
+}
+
+.x.axis path,
+.y.axis path {
+  fill: none;
+  stroke: #666;
+}
+
+
+/******************** STORYMODE *************************/
+
+#storymode {
+ position: absolute;
+ z-index: 1012022;
+ top: 60px;
+ left: 10px;
+ width: 300px;
+ height: 300px;
+ background: rgba(12, 12, 12, 0.8);
+ color: #eee;
+ padding: 10px;
+ display: none;
+}
+
+#storymode-content {
+ font-size: 12px;
+ line-height: 16px;
+}
+
+#storymode-header {
+ font-weight: 600;
+ margin-bottom: 10px;
+ text-align: left;
+ font-size: 14px;
+}
+
+#storymode-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#storymode-controls-numbers {
+  display: inline-block;
+  text-align: center;
+  width: 60px;
+}
+
+#story-back {
+  visibility: hidden;
+}
+
+i {
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+
+
+/******************** MAP *************************/
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
