@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+  <head>
+    
+    <!-- META -->
+    <meta charset='utf-8' />
+    <meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no' />
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- TITLE -->
+    <title>Journies of the World's Most Expensive Yachts, 2017</title>
+
+    <!-- STYLE SHEETS -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,600' rel='stylesheet'>
+    <link rel='stylesheet' href='stylesheets/style.css' type='text/css' />
+
+    <!-- D3 -->
+    <script src='scripts/d3.min.js'></script>
+    <script src='scripts/d3.slider.js'></script>
+
+    <!-- MapBox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+
+  </head>
+
+  <body>
+
+
+    <!-- SIDE BAR -->
+    <div id='sidebar'>
+
+      <!-- LEGEND -->
+      <div id='legend'>
+
+        <!-- LEGEND/CONTENT -->
+        <div id='legend-content'>
+
+          <div class='line'>Yacht:</div>
+
+          <div class='line'>
+            <div class = 'av' id='y1'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Attessa&nbsp;IV</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y2'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Dilbar</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y3'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Eclipse</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y4'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Highlander</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y5'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Lady&nbsp;S</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y6'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Limitless</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y7'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Main</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y8'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Musashi</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y9'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Nahlin</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y10'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Octopus</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y12'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Rising&nbsp;Sun</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y13'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Sailing&nbsp;Yacht&nbsp;A</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y14'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Seven&nbsp;Seas</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y15'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Skat</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y16'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Symphony</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y17'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Vava&nbsp;II</div>
+          </div>
+          <div class='line'>
+            <div class = 'av' id='y18'>&#9724;&#xFE0E;</div>
+            <div class='caption'>Venus</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- STATS-INFO -->
+    <div id='info' class='desktop'>
+
+      <!-- INFO/HEADER -->
+      <div id='info-header'></div>
+      
+      <!-- INFO/CONTENT -->
+      <div id='info-content'>
+        
+        <div id='info-zip'>
+
+          <!-- ZIP-POP -->
+          <div id='info-zippop' class='param'>
+              <div id='info-zippop-value' class='param-value'></div>
+              <div id='info-zippop-caption' class='param-caption'>PLWH population: </div>
+          </div>
+
+        </div>
+
+        <div id='info-prov'>
+
+          <!-- PROVIDER-TOTALENCOUNTERS -->
+          <div id='info-provtotenc' class='param'>
+              <div id='info-provtotenc-value' class='param-value'></div>
+              <div id='info-provtotenc-caption' class='param-caption'>Total PLWH encounters: </div>
+          </div>
+
+          <!-- PROVIDER-UNIQUEENCOUNTERS -->
+          <div id='info-provunienc' class='param'>
+              <div id='info-provunienc-value' class='param-value'></div>
+              <div id='info-provunienc-caption' class='param-caption'>Unique PLWH encounters: </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MB Map -->
+    <div id='map'></div>
+
+    <!-- yachts.js -->
+    <script src='scripts/yachts.js'></script>
+
+  </body>
+
+</html>
+
