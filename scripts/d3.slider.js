@@ -76,12 +76,12 @@ return function module() {
         handle1 = div.append("a")
           .classed("d3-slider-handle", true)
           .attr("xlink:href", "#")
-          .attr('id', "handle-one-" + id)
+          .attr('id', "handle-one")
           .on("click", stopPropagation)
           .call(drag);
         handle2 = div.append("a")
           .classed("d3-slider-handle", true)
-          .attr('id', "handle-two-" + id)
+          .attr('id', "handle-two")
           .attr("xlink:href", "#")
           .on("click", stopPropagation)
           .call(drag);
@@ -89,7 +89,7 @@ return function module() {
         handle1 = div.append("a")
           .classed("d3-slider-handle", true)
           .attr("xlink:href", "#")
-          .attr('id', "handle-one-" + id)
+          .attr('id', "handle-one")
           .on("click", stopPropagation)
           .call(drag);
       }

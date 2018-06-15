@@ -14,6 +14,8 @@
     <!-- STYLE SHEETS -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,600' rel='stylesheet'>
     <link rel='stylesheet' href='stylesheets/style.css' type='text/css' />
+    <link rel='stylesheet' href='stylesheets/d3.slider.css' type='text/css' />
+    <link rel='stylesheet' href='stylesheets/checkboxes.css' type='text/css' />
 
     <!-- D3 -->
     <script src='scripts/d3.min.js'></script>
@@ -39,74 +41,79 @@
 
           <div class='line'>Yacht:</div>
 
-          <div class='line'>
-            <div class = 'av' id='y1'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Attessa&nbsp;IV</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y2'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Dilbar</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y3'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Eclipse</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y4'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Highlander</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y5'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Lady&nbsp;S</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y6'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Limitless</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y7'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Main</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y8'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Musashi</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y9'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Nahlin</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y10'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Octopus</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y12'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Rising&nbsp;Sun</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y13'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Sailing&nbsp;Yacht&nbsp;A</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y14'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Seven&nbsp;Seas</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y15'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Skat</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y16'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Symphony</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y17'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Vava&nbsp;II</div>
-          </div>
-          <div class='line'>
-            <div class = 'av' id='y18'>&#9724;&#xFE0E;</div>
-            <div class='caption'>Venus</div>
-          </div>
+          <label class="container">Attessa IV
+            <input type="checkbox" checked="checked" class='cbn' id='y1cb'>
+            <span class="checkmark" id='y1'></span>
+          </label>
+          <label class="container">Dilbar
+            <input type="checkbox" checked="checked" class='cbn' id='y2cb'>
+            <span class="checkmark" id='y2'></span>
+          </label>
+          <label class="container">Eclipse
+            <input type="checkbox" checked="checked" class='cbn' id='y3cb'>
+            <span class="checkmark" id='y3'></span>
+          </label>
+          <label class="container">Highlander
+            <input type="checkbox" checked="checked" class='cbn' id='y4cb'>
+            <span class="checkmark" id='y4'></span>
+          </label>
+          <label class="container">Lady S
+            <input type="checkbox" checked="checked" class='cbn' id='y5cb'>
+            <span class="checkmark" id='y5'></span>
+          </label>
+          <label class="container">Limitless
+            <input type="checkbox" checked="checked" class='cbn' id='y6cb'>
+            <span class="checkmark" id='y6'></span>
+          </label>
+          <label class="container">Lionheart
+            <input type="checkbox" checked="checked" class='cbn' id='y7cb'>
+            <span class="checkmark" id='y7'></span>
+          </label>
+          <label class="container">Main
+            <input type="checkbox" checked="checked" class='cbn' id='y8cb'>
+            <span class="checkmark" id='y8'></span>
+          </label>
+          <label class="container">Musashi
+            <input type="checkbox" checked="checked" class='cbn' id='y9cb'>
+            <span class="checkmark" id='y9'></span>
+          </label>
+          <label class="container">Nahlin
+            <input type="checkbox" checked="checked" class='cbn' id='y10cb'>
+            <span class="checkmark" id='y10'></span>
+          </label>
+          <label class="container">Octopus
+            <input type="checkbox" checked="checked" class='cbn' id='y11cb'>
+            <span class="checkmark" id='y11'></span>
+          </label>
+          <label class="container">Rising Sun
+            <input type="checkbox" checked="checked" class='cbn' id='y12cb'>
+            <span class="checkmark" id='y12'></span>
+          </label>
+          <label class="container">Sailing Yacht A
+            <input type="checkbox" checked="checked" class='cbn' id='y13cb'>
+            <span class="checkmark" id='y13'></span>
+          </label>
+          <label class="container">Seven Seas
+            <input type="checkbox" checked="checked" class='cbn' id='y14cb'>
+            <span class="checkmark" id='y14'></span>
+          </label>
+          <label class="container">Skat
+            <input type="checkbox" checked="checked" class='cbn' id='y15cb'>
+            <span class="checkmark" id='y15'></span>
+          </label>
+          <label class="container">Symphony
+            <input type="checkbox" checked="checked" class='cbn' id='y16cb'>
+            <span class="checkmark" id='y16'></span>
+          </label>
+          <label class="container">Vava II
+            <input type="checkbox" checked="checked" class='cbn' id='y17cb'>
+            <span class="checkmark" id='y17'></span>
+          </label>
+          <label class="container">Venus
+            <input type="checkbox" checked="checked" class='cbn' id='y18cb'>
+            <span class="checkmark" id='y18'></span>
+          </label>
+
         </div>
 
       </div>
@@ -151,6 +158,19 @@
       </div>
 
     </div>
+
+
+    <!-- CONTROLS -->
+    <div id = 'controls'>
+      
+      <div id='slider-area'>
+        <div id='slider'></div>
+      </div>
+
+    </div>
+
+
+
 
     <!-- MB Map -->
     <div id='map'></div>

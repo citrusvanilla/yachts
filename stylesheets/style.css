@@ -68,77 +68,7 @@ a:active {
   display: flex;
 }
 
-#y1 {
-  color: #0000ff;
-}
 
-#y2 {
-  color: #FDBF6F;
-}
-
-#y3 {
-  color: #e066ff;
-}
-
-#y4 {
-  color: #FF7F00;
-}
-
-#y5 {
-  color: #FFD700;
-}
-
-#y6 {
-  color: #6A3D9A;
-}
-
-#y7 {
-  color: #FF1493;
-}
-
-#y8 {
-  color: #1C86EE;
-}
-
-#y9 {
-  color: #E31A1C;
-}
-
-#y10 {
-  color: #008B00;
-}
-
-#y11 {
-  color: #7ec0ee;
-}
-
-#y12 {
-  color: #800000;
-}
-
-#y13 {
-  color: #90ee90;
-}
-
-#y14 {
-  color: #00ced1;
-}
-
-#y15 {
-  color: #eee685;
-}
-
-#y16 {
-  color: #CAB2D6;
-}
-
-#y17 {
-  color: #FB9A99;
-}
-
-#y18 {
-  color: #36648b;
-}
 
 
 /******************** INFO *************************/
@@ -296,6 +226,28 @@ i {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+
+
+
+/******************** CONTROLS *************************/
+
+#controls {
+  z-index: 101010;
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  margin-left: -250px;
+  width: 500px;
+  text-align: center;
+  color: #fff
+}
+
+#slider-area {
+  display: inline-block;
+  width: 300px;
+  background: rgba(0,0,0,0.5);
+  line-height: 20px;
 }
 
 
