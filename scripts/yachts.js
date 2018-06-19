@@ -10,6 +10,10 @@ var map = new mapboxgl.Map({
   center: [0.0, 20.0]
 });
 
+// Filter vars.
+var filter = new Set(["ATTESSA IV", "DILBAR", "ECLIPSE", "HIGHLANDER", "LADY S", "LIMITLESS", "LIONHEART", "MAIN", "MUSASHI", "NAHLIN", "OCTOPUS", "RISING SUN", "SAILING YACHT A", "SEVEN SEAS", "SKAT", "SYMPHONY", "VAVA II", "VENUS"]);
+
+
 // GPS Data
 //var gpsDataPtsFile = "data/combined2pts.geojson";
 var gpsDataLineFile = "data/routes_by_month.json";
@@ -17,6 +21,26 @@ var gpsDataPts;
 var gpsDataLine;
 
 // Colors
+var images = {"ATTESSA IV": "attessa_iv.jpg",
+              "DILBAR": "dilbar.jpg",
+              "ECLIPSE": "eclipse.jpg",
+              "HIGHLANDER": "highlander.jpg",
+              "LADY S": "lady_s.jpg",
+              "LIMITLESS": "limitless.jpg",
+              "LIONHEART": "lionheart.jpg",
+              "MAIN": "main.jpg",
+              "MUSASHI": "musashi.jpg",
+              "NAHLIN": "nahlin.jpg",
+              "OCTOPUS": "octopus.jpg",
+              "RISING SUN": "rising_sun.jpg",
+              "SAILING YACHT A": "sailing_yacht_a.jpg",
+              "SEVEN SEAS": "seven_seas.jpg",
+              "SKAT": "skat.jpg",
+              "SYMPHONY": "symphony.jpg",
+              "VAVA II": "vava_ii.jpg",
+              "VENUS": "venus.jpg"};
+
+// Image Paths
 var colors = {"ATTESSA IV": "#1C86EE",
               "DILBAR": "#E31A1C",
               "ECLIPSE": "#008B00",
@@ -36,6 +60,10 @@ var colors = {"ATTESSA IV": "#1C86EE",
               "VAVA II": "#36648b",
               "VENUS": "#00ced1"};
 
+// Yacht Data
+var yachtDataFile = "data/yacht_info.json";
+var yachtData;
+d3.json(yachtDataFile, function(collection) {yachtData = collection;});
 
 // Load lines and add colors.
 d3.json(gpsDataLineFile, function(collection) {
@@ -46,7 +74,6 @@ d3.json(gpsDataLineFile, function(collection) {
     }
   }
 });
-
 
 // Map interaction vars
 var boat = "none";
@@ -83,13 +110,7 @@ var value = 0;
 var info = d3.select("#info");
 var infoGraph = d3.select("#info-popgraph");
 var nta_clicked = false;
-
-// Yacht Data
-//var yachtDataFile = "data/yachtinfo.json";
-//var yachtData;
-//d3.json(yachtDataFile, function(collection) {yachtData = collection;});
-
-// Helper Functions
+var yachtImage = d3.select("#yacht_image");
 
 // Helper Functions
 function monthFormatter(t) {
@@ -138,7 +159,6 @@ var slideendMonthCallback = function(evt, value) {
                                       changeMonth(month);
                                      };
 
-
 var sliderTime = d3.slider().min(0).max(12).step(1)
                      .on("slide", slideMonthCallback)
                      .on("slideend", slideendMonthCallback);
@@ -158,7 +178,6 @@ function changeMonth(month) {
 
   map.getSource("yacht-lines-dimmed").setData(gpsDataLine[month]);
   map.getSource("yacht-lines-highlighted").setData(gpsDataLine[month]);
-
 };
 
 
@@ -184,18 +203,38 @@ function updateInfo(feature) {
   // Determine if provider or neighborhood.
   if (feature.properties.group) { // ZIPCODE FEATURE
 
-    // Stats.
+    // Turn on the info content.
+    d3.select("#info-content").style("display", "block");
+
+    // Turn off the intro content.
+    d3.select("#info-intro").style("display", "none");
+
+    // Get the yacht name.
     var boatName = feature.properties.group;
 
     // Change Info Header.
     d3.select("#info-header").text(boatName);
 
+    // Change Yacht Image.
+    yachtImage.attr("src", "assets/yacht_images/" + images[boatName])
+    //yachtImage.style("display", "block");
+
+    // Change Stats
+    d3.select("#info-owner-value").text(yachtData[boatName]['owner']);
+    d3.select("#info-port-value").text(yachtData[boatName]['home_port']);
+    d3.select("#info-birthdate-value").text(yachtData[boatName]['date_birthed']);
+    d3.select("#info-cost-value").text(yachtData[boatName]['cost']);
+
 
   } else {
     
     console.log("nothing");
+    
     // Change Info Header.
     d3.select("#info-header").text("");
+
+    // Hide Image.
+    //yachtImage.style("display", "none");
 
   }
 }
@@ -204,6 +243,14 @@ function resetInfo() {
 
   // Change Info Header.
   d3.select("#info-header").text("");
+
+  // Hide any yacht content.
+  d3.select("#info-content").style("display", "none");
+
+  // Show intro info.
+  d3.select("#info-intro").style("display", "block");
+
+  d3.select("#info-header").text("Journey of the World's Most-Expensive Yachts, 2017");
 
 }
 
@@ -249,9 +296,6 @@ map.on("load", function(e) {
       resetInfo();
       route_clicked = false;
     }
-
-    // Init a set of all districts.
-    var filter = new Set(["ATTESSA IV", "DILBAR", "ECLIPSE", "HIGHLANDER", "LADY S", "LIMITLESS", "LIONHEART", "MAIN", "MUSASHI", "NAHLIN", "OCTOPUS", "RISING SUN", "SAILING YACHT A", "SEVEN SEAS", "SKAT", "SYMPHONY", "VAVA II", "VENUS"]);
 
     // Add and remove callbacks.
     (cb1.property("checked")) ? filter.add("ATTESSA IV") : filter.delete("ATTESSA IV");
@@ -312,14 +356,13 @@ map.on("load", function(e) {
 
       // Clear Filters.
       map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
-      map.setFilter('yacht-lines-dimmed', null);
+      map.setFilter('yacht-lines-dimmed', ['in', 'group'].concat(Array.from(filter)));
 
     // Update info panel with Manhattan data.
     resetInfo();
 
     }
   });
-
 
   // Callback for freeze/unfreeze routes.
   map.on('click', function(e) {
@@ -343,7 +386,7 @@ map.on("load", function(e) {
       map.setFilter('yacht-lines-highlighted', ['in', 'group', boat]);
 
       // Update panel.
-      updateInfo(feature);
+      updateInfo(features[0]);
 
 
     } else { // No feature found.

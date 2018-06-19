@@ -86,6 +86,7 @@ a:active {
 
 #info-content {
  font-size: 13px;
+ display: none;
 }
 
 #info-header {
@@ -93,6 +94,12 @@ a:active {
  margin-bottom: 10px;
  text-align: left;;
  font-size: 15px;
+}
+
+
+#info-intro {
+  font-size: 12px;
+  line-height: 16px;
 }
 
 #info-zip,
@@ -138,21 +145,8 @@ a:active {
   font-size: 12px;
 }
 
-.x.axis text,
-.y.axis text {
-  fill: #aaa;
-  font-size: 10px;
-}
-
-.x.axis line,
-.y.axis line {
-  stroke: #aaa;
-}
-
-.x.axis path,
-.y.axis path {
-  fill: none;
-  stroke: #666;
+#yacht_image {
+  max-width: 100%;
 }
 
 
