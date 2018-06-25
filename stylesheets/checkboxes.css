@@ -1,6 +1,7 @@
 /* The container */
 .container {
     display: block;
+    line-height: 18px;
     position: relative;
     padding-left: 20px;
     margin-bottom: 2px;
@@ -17,7 +18,7 @@
     position: absolute;
     opacity: 0;
     cursor: pointer;
-    line-height: 12px;
+    line-height: 13px;
 }
 
 /* Create a custom checkbox */
@@ -31,6 +32,10 @@
 }
 
 /* On mouse-over, add a grey background color */
+.container input:checked ~ #y0 {
+  background-color: #000000;
+}
+
 .container input:checked ~ #y1 {
   background-color: #0000ff;
 }

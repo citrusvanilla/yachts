@@ -27,6 +27,18 @@ a:active {
   display: none;
 }
 
+/******************** BUTTON *************************/
+
+
+#pause::after {
+    content: 'Pause';
+}
+
+#pause.pause::after {
+    content: 'Animate';
+}
+
+
 
 /******************** SIDEBAR *************************/
 
@@ -35,7 +47,7 @@ a:active {
   z-index: 1012022;
   top: 10px;
   right: 10px;
-  width: 150px;
+  width: 130px;
 }
 
 
@@ -58,6 +70,12 @@ a:active {
   font-size: 12px;
 }
 
+#legend-collapsible {
+  position: relative;
+  margin: 0px;
+  font-family: 'Merriweather', serif;
+}
+
 #legend-content {
   padding: 5px;
   display: block;
@@ -68,7 +86,35 @@ a:active {
   display: flex;
 }
 
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 4px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 300;
+}
 
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212"; /* Unicode character for "minus" sign (-) */
+}
 
 
 /******************** INFO *************************/
@@ -76,10 +122,11 @@ a:active {
 #info {
  position: absolute;
  z-index: 1012022;
- top: 10px;
- left: 10px;
- width: 300px;
- background: rgba(12, 12, 12, 0.8);
+ top: 0px;
+ left: 0px;
+ bottom: 0px;
+ width: 250px;
+ background: rgba(12, 12, 12, 1);
  color: #eee;
  padding: 10px;
 }
@@ -93,12 +140,13 @@ a:active {
  font-weight: 400;
  margin-bottom: 10px;
  text-align: left;;
- font-size: 15px;
+ font-size: 24px;
+ font-family: 'Merriweather', serif;
 }
 
 
 #info-intro {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 16px;
 }
 
@@ -129,14 +177,14 @@ a:active {
 .param-subheader {}
 
 .param {
-  line-height: 28px;
+  line-height: 22px;
 }
 
 .param-value {
   float: right;
   display: inline-block;
   color: #eee;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .param-caption {
@@ -148,6 +196,35 @@ a:active {
 #yacht_image {
   max-width: 100%;
 }
+
+
+#info-buttons {
+  text-align: center;
+}
+
+.mode-button {
+    width: 140px;
+    background-color: #777;
+    border: none;
+    color: white;
+    padding: 13px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.mode-button:hover {
+    background-color: #555;
+}
+
+#info-content-territory {
+  font-size: 13px;
+  display: none;
+}
+
 
 
 /******************** STORYMODE *************************/
@@ -229,7 +306,7 @@ i {
 #controls {
   z-index: 101010;
   position: absolute;
-  left: 50%;
+  left: calc(135px + 50%);
   bottom: 30px;
   margin-left: -250px;
   width: 500px;
@@ -246,15 +323,23 @@ i {
 
 
 
-/******************** MAP *************************/
+/******************** MAPBOX *************************/
 
 #map {
   position: absolute;
+  left: 270px;
+  right: 0px;
   top: 0;
   bottom: 0;
-  width: 100%;
   height: 100%;
   display: block;
   margin: 0;
   padding: 0;
 }
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Work Sans', Arial, Helvetica, sans-serif;
+  color: #000000;
+}
+
