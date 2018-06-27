@@ -37,75 +37,73 @@
 }
 
 .container input:checked ~ #y1 {
-  background-color: #0000ff;
+  background-color: #ff6666;
 }
 
 .container input:checked ~ #y2 {
-  background-color: #FDBF6F;
-}
-
-.container input:checked ~ #y3 {
-  background-color: #e066ff;
-}
-
-.container input:checked ~ #y4 {
-  background-color: #FF7F00;
-}
-
-.container input:checked ~ #y5 {
-  background-color: #FFD700;
-}
-
-.container input:checked ~ #y6 {
-  background-color: #6A3D9A;
-}
-
-.container input:checked ~ #y7 {
-  background-color: #FF1493;
-}
-
-.container input:checked ~ #y8 {
-  background-color: #1C86EE;
-}
-
-.container input:checked ~ #y9 {
   background-color: #E31A1C;
 }
 
-.container input:checked ~ #y10 {
+.container input:checked ~ #y3 {
   background-color: #008B00;
 }
 
-.container input:checked ~ #y11 {
-  background-color: #7ec0ee;
+
+
+.container input:checked ~ #y5 {
+  background-color: #FF7F00;
 }
 
-.container input:checked ~ #y12 {
-  background-color: #800000;
+.container input:checked ~ #y6 {
+  background-color: #FFD700;
 }
 
-.container input:checked ~ #y13 {
-  background-color: #90ee90;
+.container input:checked ~ #y7 {
+  background-color: #808080;
 }
 
-.container input:checked ~ #y14 {
-  background-color: #00ced1;
-}
-
-.container input:checked ~ #y15 {
-  background-color: #eee685;
-}
-
-.container input:checked ~ #y16 {
-  background-color: #CAB2D6;
-}
-
-.container input:checked ~ #y17 {
+.container input:checked ~ #y8 {
   background-color: #FB9A99;
 }
 
+.container input:checked ~ #y9 {
+  background-color: #90ee90;
+}
+
+.container input:checked ~ #y10 {
+  background-color: #CAB2D6;
+}
+
+.container input:checked ~ #y11 {
+  background-color: #FDBF6F;
+}
+
+.container input:checked ~ #y12 {
+  background-color: #eee685;
+}
+
+.container input:checked ~ #y13 {
+  background-color: #800000;
+}
+
+.container input:checked ~ #y14 {
+  background-color: #e066ff;
+}
+
+.container input:checked ~ #y15 {
+  background-color: #FF1493;
+}
+
+.container input:checked ~ #y16 {
+  background-color: #00FF00;
+}
+
+.container input:checked ~ #y17 {
+  background-color: #8B4500;
+}
+
 .container input:checked ~ #y18 {
-  background-color: #36648b;
+  background-color: #00ced1;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

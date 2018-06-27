@@ -1,32 +1,20 @@
 // MB Public Token
-mapboxgl.accessToken = "pk.eyJ1IjoiY2l0cnVzdmFuaWxsYSIsImEiOiJjamE3b2tueXFhd25lMndwYTB2aGV6eGZ2In0.tv8tWP5uRintGND3jX49aA";
+mapboxgl.accessToken = "pk.eyJ1IjoiZGFucmV2aXR0ZSIsImEiOiJjamRxNHZtcmowMG8xMzRwa2NlbnB0eG1oIn0.JPstGIPtHL9R4NjMDbF2iw";
 
 // Map
 var map = new mapboxgl.Map({
   container: "map",
-  style: "mapbox://styles/citrusvanilla/cjg4nb4bw0rvm2soz2engacpi",
+  style: "mapbox://styles/danrevitte/cjiw46va79a5k2so2mn5adkfq",
   maxZoom: 9,
   minZoom: 0,
   center: [0.0, 20.0]
 });
-
-var bbox = [[-88, 65], [-167, 46]];
-map.fitBounds(bbox, {  padding: {top: 10, bottom:10, left: 10, right: 0}});
 
 // ANIMATION VARS
 // Create a GeoJSON source with an empty lineString.
 var line_animation_geojson = {
     "type": "FeatureCollection",
     "features": [
-      {"type": "Feature",
-       "properties": {
-          "color": ""
-       },
-       "geometry": {
-         "type": "LineString",
-         "coordinates": []
-       }
-      },
       {"type": "Feature",
        "properties": {
           "color": ""
@@ -337,15 +325,6 @@ var point_animation_geojson = {
          "type": "Point",
          "coordinates": []
        }
-      },
-      {"type": "Feature",
-       "properties": {
-          "color": ""
-       },
-       "geometry": {
-         "type": "Point",
-         "coordinates": []
-       }
       }
     ]
 };
@@ -357,16 +336,33 @@ var resetTime = false; // indicator of whether time reset is needed for the anim
 var pauseButton = document.getElementById('pause');
 
 // Filter vars.
-var boatNames = ["ATTESSA IV", "DILBAR", "ECLIPSE", "HIGHLANDER", "LADY S", "LIMITLESS", "LIONHEART", "MAIN", "MUSASHI", "NAHLIN", "OCTOPUS", "RISING SUN", "SAILING YACHT A", "SEVEN SEAS", "SKAT", "SYMPHONY", "VAVA II", "VENUS"];
-var filter = new Set(["ATTESSA IV", "DILBAR", "ECLIPSE", "HIGHLANDER", "LADY S", "LIMITLESS", "LIONHEART", "MAIN", "MUSASHI", "NAHLIN", "OCTOPUS", "RISING SUN", "SAILING YACHT A", "SEVEN SEAS", "SKAT", "SYMPHONY", "VAVA II", "VENUS"]);
+var boatNames = ["ATTESSA IV",
+                 "DILBAR",
+                 "ECLIPSE",
+                 "LADY S",
+                 "LIMITLESS",
+                 "LIONHEART",
+                 "MAIN",
+                 "MUSASHI",
+                 "NAHLIN",
+                 "OCTOPUS",
+                 "RISING SUN",
+                 "SAILING YACHT A",
+                 "SEVEN SEAS",
+                 "SKAT",
+                 "SYMPHONY",
+                 "VAVA II",
+                 "VENUS"];
+
+var filter = new Set(boatNames);
 var month = 0;
 
 // Routes Data
-var gpsDataLineFile = "data/routes_by_month.json";
+var gpsDataLineFile = "data/routes_by_month2.json";
 var gpsDataLine;
 
 // Points Data
-var gpsDataPtsFile = "data/final_pts.geojson";
+var gpsDataPtsFile = "data/final_pts2.geojson";
 var gpsDataPts;
 
 // Territories Data
@@ -395,29 +391,33 @@ var images = {"ATTESSA IV": "attessa_iv.jpg",
               "VENUS": "venus.jpg"};
 
 // Image Paths
-var colors = {"ATTESSA IV": "#1C86EE",
+var colors = {"ATTESSA IV": "#ff6666", // redish
               "DILBAR": "#E31A1C",
               "ECLIPSE": "#008B00",
-              "HIGHLANDER": "#6A3D9A",
               "LADY S": "#FF7F00",
               "LIMITLESS": "#FFD700",
-              "LIONHEART": "#7ec0ee",
+              "LIONHEART": "#808080",  // Grey
               "MAIN": "#FB9A99",
               "MUSASHI": "#90ee90",
               "NAHLIN": "#CAB2D6",
-              "OCTOPUS": "#FDBF6F",
+              "OCTOPUS": "#FDBF6F", // light orange
               "RISING SUN": "#eee685",
               "SAILING YACHT A": "#800000",
               "SEVEN SEAS": "#e066ff",
               "SKAT": "#FF1493",
-              "SYMPHONY": "#0000ff",
-              "VAVA II": "#36648b",
+              "SYMPHONY": "#00FF00",  // green1
+              "VAVA II": "#8B4500",  // dark orange 4
               "VENUS": "#00ced1"};
 
-// Route Data
+// Yacht Data
 var yachtDataFile = "data/yacht_info.json";
 var yachtData;
 d3.json(yachtDataFile, function(collection) {yachtData = collection;});
+
+// Destinations Data
+var destinationDataFile = "data/destination_info.json";
+var destinationData;
+d3.json(destinationDataFile, function(collection) {destinationData = collection;});
 
 // Load routes and add colors.
 d3.json(gpsDataLineFile, function(collection) {
@@ -451,7 +451,7 @@ var cb0 = d3.select("#y0cb");
 var cb1 = d3.select("#y1cb");
 var cb2 = d3.select("#y2cb");
 var cb3 = d3.select("#y3cb");
-var cb4 = d3.select("#y4cb");
+//var cb4 = d3.select("#y4cb");
 var cb5 = d3.select("#y5cb");
 var cb6 = d3.select("#y6cb");
 var cb7 = d3.select("#y7cb");
@@ -587,10 +587,10 @@ function updateStory(storyObj) {
 };
 
 // Update the Info panel.
-function updateInfo(feature) {
+function updateInfo(boat) {
 
   // Determine if provider or neighborhood.
-  if (feature.properties.group) {
+  if (boat) {
 
     // Turn on the info content.
     d3.select("#info-content").style("display", "block");
@@ -602,13 +602,13 @@ function updateInfo(feature) {
     d3.select("#info-buttons").style("display", "none");
 
     // Get the yacht name.
-    var boatName = feature.properties.group;
+    var boatName = boat;
 
     // Change Info Header.
     d3.select("#info-header").text(boatName);
 
     // Change Yacht Image.
-    yachtImage.attr("src", "assets/yacht_images/" + images[boatName])
+    yachtImage.attr("src", yachtData[boatName]['image_file']);
     //yachtImage.style("display", "block");
 
     // Change Stats
@@ -661,6 +661,24 @@ function updateTerritory(feature) {
 
   // Change Info Header.
   d3.select("#info-header").text(territory);
+
+  // Change Stats.
+  d3.select("#info-popularity-value").text("#" + destinationData[territory]['rank_num'] + " of 63");
+  d3.select("#info-totaldays-value").text(destinationData[territory]['total_days']);
+  d3.select("#info-boatcount-value").text(destinationData[territory]['boats'] + " out of 17");
+  d3.select("#info-lengthofstay-value").text(destinationData[territory]['days_per_boat']);
+  d3.select("#info-janvisits-value").text(destinationData[territory]['days_per_month']['jan']);
+  d3.select("#info-febvisits-value").text(destinationData[territory]['days_per_month']['feb']);
+  d3.select("#info-marvisits-value").text(destinationData[territory]['days_per_month']['mar']);
+  d3.select("#info-aprvisits-value").text(destinationData[territory]['days_per_month']['apr']);
+  d3.select("#info-mayvisits-value").text(destinationData[territory]['days_per_month']['may']);
+  d3.select("#info-junvisits-value").text(destinationData[territory]['days_per_month']['jun']);
+  d3.select("#info-julvisits-value").text(destinationData[territory]['days_per_month']['jul']);
+  d3.select("#info-augvisits-value").text(destinationData[territory]['days_per_month']['aug']);
+  d3.select("#info-sepvisits-value").text(destinationData[territory]['days_per_month']['sep']);
+  d3.select("#info-octvisits-value").text(destinationData[territory]['days_per_month']['oct']);
+  d3.select("#info-novvisits-value").text(destinationData[territory]['days_per_month']['nov']);
+  d3.select("#info-decvisits-value").text(destinationData[territory]['days_per_month']['dec']);
 };
 
 function resetInfo() {
@@ -746,12 +764,11 @@ function animateLine(timestamp) {
 // Define map behavior and callback functions.
 map.on("load", function(e) {
 
-
   // Add sliders
   getSliders();
 
-  map.fitBounds([[-167, -46], [88, 65]]);
-
+  // Fit to these bounds.
+  map.fitBounds([[-167, -46], [88, 65]], {  padding: {top: 10, bottom:10, left: 10, right: 0}});
 
   // ANIMATION
   // add the line which will be modified in the animation
@@ -807,6 +824,7 @@ map.on("load", function(e) {
     map.setLayoutProperty("yacht-points-dimmed", 'visibility', 'none');
     map.setLayoutProperty("yacht-points-highlighted", 'visibility', 'none');
     map.setLayoutProperty("destinations-heat", 'visibility', 'none');
+    map.setLayoutProperty("territories", 'visibility', 'none');
 
     // Toggle Pause button state.
     pauseButton.classList.toggle('pause');
@@ -844,7 +862,7 @@ map.on("load", function(e) {
       "type": "geojson",
       "data": gpsDataLine[0]},
     "filter" : ["in", "group", ""],
-    "paint": {"line-width" : 2.5,
+    "paint": {"line-width" : 3,
               "line-color": ['get', 'color'],
               "line-opacity": 0.85},
   });
@@ -879,8 +897,8 @@ map.on("load", function(e) {
     "filter" : ["in", "VESSEL NAM", ""],
     'paint': {
           'circle-radius': {
-                'base': 3,
-                'stops': [[1, 3], [9, 30]]
+                'base': 4,
+                'stops': [[1, 4], [9, 40]]
             },
           "circle-color": ['get', 'color'],
           "circle-opacity": 0.9
@@ -952,17 +970,21 @@ map.on("load", function(e) {
   map.setLayoutProperty("destinations-heat", 'visibility', 'none');
 
   // Destinations Hover Layer.
+  map.addSource("test",
+                {type: "vector",
+                 url: "mapbox://danrevitte.2w7nnylg"}
+  );
+
   map.addLayer({"id": "territories",
                 "type": "fill",
-                "source": {
-                  "type": "geojson",
-                  "data": territoriesDataFill
-                },
+                "source": "test",
+                "source-layer": "territories_s1-dvzg9q",
                 "paint": {
                   "fill-color": "#333333",
                   "fill-opacity": 0.00,
                 }
   });
+
   map.setLayoutProperty("territories", 'visibility', 'none');
 
   // Collapsible Click callback.
@@ -1064,26 +1086,19 @@ map.on("load", function(e) {
     // Release "clicked" condition.
     if (route_clicked) {
       map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
-
-      if (month > 0) {
-        map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM'].concat(Array.from(filter))] );
-      } else {
-        map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM'].concat(Array.from(filter)) );
-      }
-      
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
       resetInfo();
       route_clicked = false;
     }
 
     // Add and remove callbacks.
     if (cb0.property("checked")) {
-      console.log("checked");
       for (var i = 0; i < boatNames.length; i++) {
         filter.add(boatNames[i]);
         cb1.property("checked", true);
         cb2.property("checked", true);
         cb3.property("checked", true);
-        cb4.property("checked", true);
+        //cb4.property("checked", true);
         cb5.property("checked", true);
         cb6.property("checked", true);
         cb7.property("checked", true);
@@ -1100,13 +1115,12 @@ map.on("load", function(e) {
         cb18.property("checked", true);
       }
     } else {
-      console.log("unchecked");
       for (var i = 0; i < boatNames.length; i++) {
         filter.delete(boatNames[i]);
         cb1.property("checked", false);
         cb2.property("checked", false);
         cb3.property("checked", false);
-        cb4.property("checked", false);
+        //cb4.property("checked", false);
         cb5.property("checked", false);
         cb6.property("checked", false);
         cb7.property("checked", false);
@@ -1139,13 +1153,7 @@ map.on("load", function(e) {
     // Release "clicked" condition.
     if (route_clicked) {
       map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
-
-      if (month > 0) {
-        map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM'].concat(Array.from(filter))] );
-      } else {
-        map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM'].concat(Array.from(filter)) );
-      }
-      
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
       resetInfo();
       route_clicked = false;
     }
@@ -1153,7 +1161,7 @@ map.on("load", function(e) {
     (cb1.property("checked")) ? filter.add("ATTESSA IV") : filter.delete("ATTESSA IV");
     (cb2.property("checked")) ? filter.add("DILBAR") : filter.delete("DILBAR");
     (cb3.property("checked")) ? filter.add("ECLIPSE") : filter.delete("ECLIPSE");
-    (cb4.property("checked")) ? filter.add("HIGHLANDER") : filter.delete("HIGHLANDER");
+    //(cb4.property("checked")) ? filter.add("HIGHLANDER") : filter.delete("HIGHLANDER");
     (cb5.property("checked")) ? filter.add("LADY S") : filter.delete("LADY S");
     (cb6.property("checked")) ? filter.add("LIMITLESS") : filter.delete("LIMITLESS");
     (cb7.property("checked")) ? filter.add("LIONHEART") : filter.delete("LIONHEART");
@@ -1173,7 +1181,7 @@ map.on("load", function(e) {
     if (!cb1.property("checked") || 
         !cb2.property("checked") ||
         !cb3.property("checked") ||
-        !cb4.property("checked") ||
+        //!cb4.property("checked") ||
         !cb5.property("checked") ||
         !cb6.property("checked") ||
         !cb7.property("checked") ||
@@ -1194,7 +1202,7 @@ map.on("load", function(e) {
     if (cb1.property("checked") && 
         cb2.property("checked") &&
         cb3.property("checked") &&
-        cb4.property("checked") &&
+        //cb4.property("checked") &&
         cb5.property("checked") &&
         cb6.property("checked") &&
         cb7.property("checked") &&
@@ -1246,7 +1254,7 @@ map.on("load", function(e) {
 
 
       // Update the info panel.
-      updateInfo(feature);
+      updateInfo(feature.properties.group);
       }
     }
   );
@@ -1372,7 +1380,7 @@ map.on("load", function(e) {
       
 
       // Update panel.
-      updateInfo(features[0]);
+      updateInfo(features[0].properties.group);
 
       // Zoom to features
       var coordinates = features[0].geometry.coordinates;
@@ -1405,6 +1413,399 @@ map.on("load", function(e) {
       resetInfo();
     }
   });
+
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y1").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'ATTESSA IV']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'ATTESSA IV']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'ATTESSA IV'] );
+    };
+    // Update the info panel.
+    updateInfo('ATTESSA IV');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y1").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();}
+  );
+
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y2").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'DILBAR']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'DILBAR']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'DILBAR'] );
+    };
+    // Update the info panel.
+    updateInfo('DILBAR');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y2").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y3").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'ECLIPSE']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'ECLIPSE']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'ECLIPSE'] );
+    };
+    // Update the info panel.
+    updateInfo('ECLIPSE');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y3").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y5").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'LADY S']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'LADY S']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'LADY S'] );
+    };
+    // Update the info panel.
+    updateInfo('LADY S');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y5").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y6").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'LIMITLESS']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'LIMITLESS']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'LIMITLESS'] );
+    };
+    // Update the info panel.
+    updateInfo('LIMITLESS');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y6").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y7").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'LIONHEART']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'LIONHEART']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'LIONHEART'] );
+    };
+    // Update the info panel.
+    updateInfo('LIONHEART');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y7").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y8").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'MAIN']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'MAIN']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'MAIN'] );
+    };
+    // Update the info panel.
+    updateInfo('MAIN');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y8").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y9").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'MUSASHI']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'MUSASHI']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'MUSASHI'] );
+    };
+    // Update the info panel.
+    updateInfo('MUSASHI');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y9").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y10").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'NAHLIN']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'NAHLIN']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'NAHLIN'] );
+    };
+    // Update the info panel.
+    updateInfo('NAHLIN');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y10").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y11").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'OCTOPUS']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'OCTOPUS']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'OCTOPUS'] );
+    };
+    // Update the info panel.
+    updateInfo('OCTOPUS');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y11").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y12").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'RISING SUN']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'RISING SUN']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'RISING SUN'] );
+    };
+    // Update the info panel.
+    updateInfo('RISING SUN');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y12").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y13").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'SAILING YACHT A']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'SAILING YACHT A']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'SAILING YACHT A'] );
+    };
+    // Update the info panel.
+    updateInfo('SAILING YACHT A');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y13").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y14").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'SEVEN SEAS']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'SEVEN SEAS']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'SEVEN SEAS'] );
+    };
+    // Update the info panel.
+    updateInfo('SEVEN SEAS');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y14").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y15").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'SKAT']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'SKAT']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'SKAT'] );
+    };
+    // Update the info panel.
+    updateInfo('SKAT');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y15").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y16").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'SYMPHONY']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'SYMPHONY']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'SYMPHONY'] );
+    };
+    // Update the info panel.
+    updateInfo('SYMPHONY');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y16").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y17").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'VAVA II']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'VAVA II']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'VAVA II'] );
+    };
+    // Update the info panel.
+    updateInfo('VAVA II');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y17").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+    // Legend Menu Filter Callbacks.
+  d3.select("#select-y18").on("mouseover", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', 'VENUS']);
+    if (month > 0) {
+      map.setFilter('yacht-points-highlighted', ['all', ['in', 'MONTH', month], ['in', 'VESSEL NAM', 'VENUS']] );
+    } else {
+      map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', 'VENUS'] );
+    };
+    // Update the info panel.
+    updateInfo('VENUS');
+  });
+  // Legend Menu Filter Callbacks.
+  d3.select("#select-y18").on("mouseout", function() {
+
+    // Filter map overlay for the NTA.
+    map.setFilter('yacht-lines-highlighted', ['in', 'group', '']);
+    map.setFilter('yacht-points-highlighted', ['in', 'VESSEL NAM', '']);
+    // Update info panel with Manhattan data.
+    resetInfo();
+  })
+
+
 
 });
 
