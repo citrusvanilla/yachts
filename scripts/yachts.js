@@ -328,12 +328,29 @@ var point_animation_geojson = {
       }
     ]
 };
-var speedFactor = 3; // number of frames per longitude degree
+
+var heat_animation_geojson = {
+    "type": "FeatureCollection",
+    "features": [
+      {"type": "Feature",
+       "properties": {
+          "color": ""
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": []
+       }
+      }]};
+
+
+var speedFactor = 3; // number of frames
 var animation; // to store and cancel the animation
 var startTime = 0;
 var progress = 0; // progress = timestamp - startTime
 var resetTime = false; // indicator of whether time reset is needed for the animation
 var pauseButton = document.getElementById('pause');
+var counter = 0;
+var timer = 0;
 
 // Filter vars.
 var boatNames = ["ATTESSA IV",
@@ -353,7 +370,6 @@ var boatNames = ["ATTESSA IV",
                  "SYMPHONY",
                  "VAVA II",
                  "VENUS"];
-
 var filter = new Set(boatNames);
 var month = 0;
 
@@ -439,7 +455,6 @@ d3.json(gpsDataPtsFile, function(collection) {
 
 // Map interaction vars
 var boat = "none";
-var currentLayer = "zipcodes";
 var route_clicked = false;
 var popup = new mapboxgl.Popup({
     closeButton: false,
@@ -474,9 +489,6 @@ var sliding;
 var value = 0;
 
 // Info Panel vars
-var info = d3.select("#info");
-var infoGraph = d3.select("#info-popgraph");
-var nta_clicked = false;
 var yachtImage = d3.select("#yacht_image");
 
 // Helper Functions
@@ -502,7 +514,6 @@ function monthFormatter(t) {
 }
 
 // Build sliders and set callbacks.
-
 var slideMonthCallback = function(evt, value) {
                                     month = value;
                                     
@@ -696,9 +707,6 @@ function resetInfo() {
   d3.select("#info-buttons").style("display", "block");
 };
 
-var counter = 0;
-var timer = 0;
-
 // animated in a circle as a sine wave along the map.
 function animateLine(timestamp) {
     if (resetTime) {
@@ -716,14 +724,11 @@ function animateLine(timestamp) {
         for (var key in line_animation_geojson.features) {
           line_animation_geojson.features[key].geometry.coordinates = [];
           point_animation_geojson.features[key].geometry.coordinates = [];
+          heat_animation_geojson.features[0].geometry.coordinates = [];
         }
 
         counter = 0;
     } else if (timer % speedFactor == 0) {
-        //var x = progress / speedFactor;
-        // draw a sine wave with some math.
-        //var y = Math.sin(x * Math.PI / 90) * 40;
-
 
         for (var key in line_animation_geojson.features) {
 
@@ -732,33 +737,60 @@ function animateLine(timestamp) {
           
           line_animation_geojson.features[key].geometry.coordinates.push([x, y]);
           point_animation_geojson.features[key].geometry.coordinates = [x,y];
-          line_animation_geojson.features[key].properties.color = colors[boatNames[key]];
-          point_animation_geojson.features[key].properties.color = colors[boatNames[key]];
+          heat_animation_geojson.features.push([
+      {"type": "Feature",
+       "properties": {
+          "color": ""
+       },
+       "geometry": {
+         "type": "Point",
+         "coordinates": [x,y]
+       }
+      }]);
 
-        }
-
-
-
-        
+        };
 
         // append new coordinates to the lineString
-        
         // then update the map
         map.getSource('line-animation').setData(line_animation_geojson);
         map.getSource('point-animation').setData(point_animation_geojson);
+        map.getSource('heat-animation').setData(heat_animation_geojson);
+
         counter = counter + 1;
         timer = timer + 1;
     } else {
       timer = timer + 1;
-    }
-
-    //console.log(counter);
-    //console.log(timer);
-    //console.log(progress);
-
+    };
 
     // Request the next frame of the animation.
     animation = requestAnimationFrame(animateLine);
+
+    // Update Time.
+    if (Math.floor(counter/30) == 0) {
+      d3.select("#time").text("January 2017");
+    } else if (Math.floor(counter/30) == 1) {
+      d3.select("#time").text("February 2017");
+    } else if (Math.floor(counter/30) == 2) {
+      d3.select("#time").text("March 2017");
+    } else if (Math.floor(counter/30) == 3) {
+      d3.select("#time").text("April 2017");
+    } else if (Math.floor(counter/30) == 4) {
+      d3.select("#time").text("May 2017");
+    } else if (Math.floor(counter/30) == 5) {
+      d3.select("#time").text("June 2017");
+    } else if (Math.floor(counter/30) == 6) {
+      d3.select("#time").text("July 2017");
+    } else if (Math.floor(counter/30) == 7) {
+      d3.select("#time").text("August 2017");
+    } else if (Math.floor(counter/30) == 8) {
+      d3.select("#time").text("September 2017");
+    } else if (Math.floor(counter/30) == 9) {
+      d3.select("#time").text("October 2017");
+    } else if (Math.floor(counter/30) == 10) {
+      d3.select("#time").text("November 2017");
+    } else if (Math.floor(counter/30) == 11) {
+      d3.select("#time").text("December 2017");
+    };
 };
 
 // Define map behavior and callback functions.
@@ -768,7 +800,7 @@ map.on("load", function(e) {
   getSliders();
 
   // Fit to these bounds.
-  map.fitBounds([[-167, -46], [88, 65]], {  padding: {top: 10, bottom:10, left: 10, right: 0}});
+  map.fitBounds([[-167, -46], [88, 65]], {padding: {top: 10, bottom:10, left: 10, right: 0}});
 
   // ANIMATION
   // add the line which will be modified in the animation
@@ -805,9 +837,64 @@ map.on("load", function(e) {
       }
   });
 
-  startTime = performance.now();
-
-  //animateLine();
+  // add the points which will be modified in the animation
+  map.addLayer({
+      'id': 'heat-animation',
+      'type': 'heatmap',
+      'source': {
+          'type': 'geojson',
+          'data': heat_animation_geojson
+      },
+      "paint": {
+            // Increase the heatmap weight based on frequency and property magnitude
+            "heatmap-weight": [
+                "interpolate",
+                ["linear"],
+                ["get", "mag"],
+                0, 0,
+                6, 1
+            ],
+            // Increase the heatmap color weight weight by zoom level
+            // heatmap-intensity is a multiplier on top of heatmap-weight
+            "heatmap-intensity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                0, 1,
+                9, 3
+            ],
+            // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+            // Begin color ramp at 0-stop with a 0-transparancy color
+            // to create a blur-like effect.
+            "heatmap-color": [
+                "interpolate",
+                ["linear"],
+                ["heatmap-density"],
+                0, "rgba(33,102,172,0)",
+                0.2, "rgb(103,169,207)",
+                0.4, "rgb(209,229,240)",
+                0.6, "rgb(253,219,199)",
+                0.8, "rgb(239,138,98)",
+                1, "rgb(178,24,43)"
+            ],
+            // Adjust the heatmap radius by zoom level
+            "heatmap-radius": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                0, 8,
+                9, 25
+            ],
+            // Transition from heatmap to circle layer by zoom level
+            "heatmap-opacity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                7, 0.8,
+                9, 0
+            ],
+        }
+  });
 
   // click the button to pause or play
   pauseButton.addEventListener('click', function() {
@@ -815,6 +902,9 @@ map.on("load", function(e) {
     // Hide Sidebar and controls.
     d3.select("#sidebar").style("display", "none");
     d3.select("#controls").style("display", "none");
+
+    // Show Time.
+    d3.select("#time").style("display", "block");
 
     // Hide Routes and heatmap.
     map.setLayoutProperty("point-animation", 'visibility', 'visible');
@@ -833,7 +923,7 @@ map.on("load", function(e) {
     } else {
       resetTime = true;
       animateLine();
-    }
+    };
   });
 
   // reset startTime and progress once the tab loses or gains focus
@@ -1002,6 +1092,9 @@ map.on("load", function(e) {
 
     d3.select("#controls").style("display", "block");
 
+    // Hide Time.
+    d3.select("#time").style("display", "none");
+
     if (!pauseButton.classList.contains('pause')) {
           cancelAnimationFrame(animation);
           pauseButton.classList.toggle('pause');
@@ -1041,6 +1134,9 @@ map.on("load", function(e) {
   // Routes mode callback.
   d3.select("#route-button").on("click", function () {
 
+
+    // Hide Time.
+    d3.select("#time").style("display", "none");
 
     d3.select("#controls").style("display", "block");
 
@@ -1270,9 +1366,7 @@ map.on("load", function(e) {
 
     // Update the info panel.
     updateTerritory(feature);
-    
   });
-
 
   // Mouse-leave interaction for territories.
   map.on('mouseleave', 'territories', function(e) {
@@ -1282,9 +1376,7 @@ map.on("load", function(e) {
 
     // Update info panel with Manhattan data.
     resetInfo();
-
   });
-
 
   map.on('mouseleave', 'yacht-lines-dimmed', function(e) {
 
@@ -1427,6 +1519,7 @@ map.on("load", function(e) {
     // Update the info panel.
     updateInfo('ATTESSA IV');
   });
+
   // Legend Menu Filter Callbacks.
   d3.select("#select-y1").on("mouseout", function() {
 
@@ -1804,9 +1897,6 @@ map.on("load", function(e) {
     // Update info panel with Manhattan data.
     resetInfo();
   })
-
-
-
 });
 
 // Set default map cursor to a hand.
