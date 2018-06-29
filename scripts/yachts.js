@@ -10,6 +10,44 @@ var map = new mapboxgl.Map({
   center: [0.0, 20.0]
 });
 
+// Media Responsivity
+// Media - Narrow Desktop
+var media;
+var isNarrowDesktop = window.matchMedia("(max-width: 780px)");
+
+function changeMediaNarrowDesktop(x) {
+  if (x.matches) {
+    
+    // Collapse Filter
+    document.getElementById('legend-collapsible').classList.remove('active');
+    d3.select("#legend-content").style("display", "none");
+  };
+};
+
+changeMediaNarrowDesktop(isNarrowDesktop); // Call listener function at run time
+isNarrowDesktop.addListener(changeMediaNarrowDesktop); // Attach listener function on state changes
+
+// Media - Mobile
+var isNarrowMobile = window.matchMedia("(max-width: 650px)");
+
+function changeMediaNarrowMobile(x) {
+  if (x.matches) {
+    
+    // Collapse Filter
+    d3.select("#sidebar").style("display", "none");
+
+    document.getElementById('modes').appendChild(document.getElementById('route-button'));
+    document.getElementById('modes').appendChild(document.getElementById('destination-button'));
+    document.getElementById('modes').appendChild(document.getElementById('pause'));
+  };
+};
+
+changeMediaNarrowMobile(isNarrowMobile); // Call listener function at run time
+isNarrowMobile.addListener(changeMediaNarrowMobile); // Attach listener function on state changes
+
+
+
+
 // ANIMATION VARS
 // Create a GeoJSON source with an empty lineString.
 var line_animation_geojson = {
@@ -581,22 +619,6 @@ function changeMonth(month) {
   };
 };
 
-// Update Story Mode panel.
-function updateStory(storyObj) {
-  
-  // Story vars.
-  var title = storyObj['title'];
-  var description = storyObj['narrative'];
-  var cameraSettings = storyObj['camera'];
-
-  // Update the Storymode content.
-  storyHeader.text(title);
-  storyContent.text(description);
-
-  // Update Camera.
-  map.flyTo(cameraSettings);
-};
-
 // Update the Info panel.
 function updateInfo(boat) {
 
@@ -701,7 +723,8 @@ function resetInfo() {
   d3.select("#info-content").style("display", "none");
 
   // Show intro info.
-  d3.select("#info-intro").style("display", "block");
+  if (isNarrowMobile.matches == false)
+    d3.select("#info-intro").style("display", "block");
 
   // Show Buttons.
   d3.select("#info-buttons").style("display", "block");
@@ -732,11 +755,17 @@ function animateLine(timestamp) {
 
         for (var key in line_animation_geojson.features) {
 
+        
           var x = gpsDataLine[0]['features'][key]['geometry']['coordinates'][counter][0];
           var y = gpsDataLine[0]['features'][key]['geometry']['coordinates'][counter][1];
-          
+
           line_animation_geojson.features[key].geometry.coordinates.push([x, y]);
           point_animation_geojson.features[key].geometry.coordinates = [x,y];
+            
+          
+          
+
+          /*
           heat_animation_geojson.features.push([
       {"type": "Feature",
        "properties": {
@@ -746,15 +775,17 @@ function animateLine(timestamp) {
          "type": "Point",
          "coordinates": [x,y]
        }
-      }]);
+      }]);*/
 
         };
 
         // append new coordinates to the lineString
         // then update the map
-        map.getSource('line-animation').setData(line_animation_geojson);
+        if (counter % 2 == 0) {
+          map.getSource('line-animation').setData(line_animation_geojson);
+        };
         map.getSource('point-animation').setData(point_animation_geojson);
-        map.getSource('heat-animation').setData(heat_animation_geojson);
+        //map.getSource('heat-animation').setData(heat_animation_geojson);
 
         counter = counter + 1;
         timer = timer + 1;
@@ -1137,7 +1168,6 @@ map.on("load", function(e) {
 
     // Hide Time.
     d3.select("#time").style("display", "none");
-
     d3.select("#controls").style("display", "block");
 
     if (!pauseButton.classList.contains('pause')) {
@@ -1166,7 +1196,7 @@ map.on("load", function(e) {
     if (map.getLayoutProperty("territories", 'visibility') === "visible")
       map.setLayoutProperty("territories", 'visibility', 'none');
 
-    if (d3.select("#sidebar").style("display") === "none")
+    if (d3.select("#sidebar").style("display") === "none" && isNarrowMobile.matches == false)
       d3.select("#sidebar").style("display", "block");
 
     if (d3.select("#info-territory").style("display") === "block")
