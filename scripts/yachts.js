@@ -424,7 +424,7 @@ var territoriesDataFillFile = "data/territories_s1.geojson";
 var territoriesDataFill;
 d3.json(territoriesDataFillFile, function(collection) {territoriesDataFill = collection;});
 
-// Colors
+// Images
 var images = {"ATTESSA IV": "attessa_iv.jpg",
               "DILBAR": "dilbar.jpg",
               "ECLIPSE": "eclipse.jpg",
@@ -444,9 +444,9 @@ var images = {"ATTESSA IV": "attessa_iv.jpg",
               "VAVA II": "vava_ii.jpg",
               "VENUS": "venus.jpg"};
 
-// Image Paths
+// Colors
 var colors = {"ATTESSA IV": "#ff6666", // redish
-              "DILBAR": "#E31A1C",
+              "DILBAR": "#551A8B",
               "ECLIPSE": "#008B00",
               "LADY S": "#FF7F00",
               "LIMITLESS": "#FFD700",
@@ -456,7 +456,7 @@ var colors = {"ATTESSA IV": "#ff6666", // redish
               "NAHLIN": "#CAB2D6",
               "OCTOPUS": "#FDBF6F", // light orange
               "RISING SUN": "#eee685",
-              "SAILING YACHT A": "#800000",
+              "SAILING YACHT A": "#722f37",
               "SEVEN SEAS": "#e066ff",
               "SKAT": "#FF1493",
               "SYMPHONY": "#00FF00",  // green1
@@ -631,9 +631,6 @@ function updateInfo(boat) {
     // Turn off the intro content.
     d3.select("#info-intro").style("display", "none");
 
-    // Turn off the mode buttons.
-    d3.select("#info-buttons").style("display", "none");
-
     // Get the yacht name.
     var boatName = boat;
 
@@ -686,9 +683,6 @@ function updateTerritory(feature) {
   // Turn off the intro content.
   d3.select("#info-intro").style("display", "none");
 
-  // Turn off the mode buttons.
-  d3.select("#info-buttons").style("display", "none");
-
   // Get the territory name.
   var territory = feature.properties['NAME'];
 
@@ -717,7 +711,7 @@ function updateTerritory(feature) {
 function resetInfo() {
 
   // Change Info Header.
-  d3.select("#info-header").text("The Journies of the World's Most-Expensive Yachts, 2017");
+  d3.select("#info-header").text("");
 
   // Hide any yacht content.
   d3.select("#info-content").style("display", "none");
@@ -831,7 +825,7 @@ map.on("load", function(e) {
   getSliders();
 
   // Fit to these bounds.
-  map.fitBounds([[-167, -46], [88, 65]], {padding: {top: 10, bottom:10, left: 10, right: 0}});
+  map.fitBounds([[-167, -46], [88, 65]], {padding: {top: 120, bottom:10, left: 10, right: 10}});
 
   // ANIMATION
   // add the line which will be modified in the animation
@@ -847,8 +841,8 @@ map.on("load", function(e) {
           'line-join': 'round'
       },
       'paint': {
-          'line-color': "#FF2800",
-          'line-width': 6,
+          'line-color': "#ffce42",
+          'line-width': 5,
           'line-opacity': 0.5
       }
   });
@@ -864,7 +858,10 @@ map.on("load", function(e) {
       'paint': {
           "circle-radius": 10,
           "circle-color": "#FFF",
-          "circle-opacity": 0.8
+          "circle-opacity": 0.8,
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#000",
+          "circle-stroke-opacity": 0.8
       }
   });
 
@@ -1108,13 +1105,23 @@ map.on("load", function(e) {
 
   map.setLayoutProperty("territories", 'visibility', 'none');
 
-  // Collapsible Click callback.
+  // Legend Collapsible Click callback.
   d3.select("#legend-collapsible").on("click", function () {
     this.classList.toggle("active");
     if (d3.select("#legend-content").style("display") === "block") {
       d3.select("#legend-content").style("display", "none");
     } else {
       d3.select("#legend-content").style("display", "block");
+    };
+  });
+
+  // Info Collapsible Click callback.
+  d3.select("#info-collapsible").on("click", function () {
+    this.classList.toggle("active");
+    if (d3.select("#info").style("display") === "block") {
+      d3.select("#info").style("display", "none");
+    } else {
+      d3.select("#info").style("display", "block");
     };
   });
 

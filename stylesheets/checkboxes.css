@@ -1,12 +1,12 @@
 /* The container */
 .container {
     display: block;
-    line-height: 18px;
+    line-height: 21px;
     position: relative;
     padding-left: 20px;
     margin-bottom: 2px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 15px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -24,10 +24,10 @@
 /* Create a custom checkbox */
 .checkmark {
     position: absolute;
-    top: 0;
+    top: 2px;
     left: 0;
-    height: 14px;
-    width: 14px;
+    height: 15px;
+    width: 15px;
     background-color: #eee;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .container input:checked ~ #y2 {
-  background-color: #E31A1C;
+  background-color: #551A8B;
 }
 
 .container input:checked ~ #y3 {
@@ -83,7 +83,7 @@
 }
 
 .container input:checked ~ #y13 {
-  background-color: #800000;
+  background-color: #722f37;
 }
 
 .container input:checked ~ #y14 {
