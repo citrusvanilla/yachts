@@ -5,7 +5,7 @@ mapboxgl.accessToken = "pk.eyJ1IjoiZGFucmV2aXR0ZSIsImEiOiJjamRxNHZtcmowMG8xMzRwa
 var map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/danrevitte/cjiw46va79a5k2so2mn5adkfq",
-  maxZoom: 9,
+  maxZoom: 8,
   minZoom: 0,
   center: [0.0, 20.0]
 });
@@ -21,6 +21,10 @@ function changeMediaNarrowDesktop(x) {
     // Collapse Filter
     document.getElementById('legend-collapsible').classList.remove('active');
     d3.select("#legend-content").style("display", "none");
+
+    // Collapse Info
+    document.getElementById('info-collapsible').classList.remove('active');
+    d3.select("#info").style("display", "none");
   };
 };
 
@@ -33,7 +37,7 @@ var isNarrowMobile = window.matchMedia("(max-width: 650px)");
 function changeMediaNarrowMobile(x) {
   if (x.matches) {
     
-    // Collapse Filter
+    // Hide Filter
     d3.select("#sidebar").style("display", "none");
 
     document.getElementById('modes').appendChild(document.getElementById('route-button'));
