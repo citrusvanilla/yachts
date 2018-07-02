@@ -41,11 +41,13 @@ a:active {
 #title {
   font-family: 'Merriweather', serif;
   font-size: 40px;
+  font-weight: 500;
 }
 
 #subtitle {
   font-family: 'Work Sans', sans-serif;
   font-size: 16px;
+  margin-bottom: 5px;
 }
 
 
@@ -97,9 +99,9 @@ a:active {
 #sidebar {
   position: absolute;
   z-index: 1012022;
-  top: 20px;
+  bottom: 0px;
   right: 10px;
-  width: 135px;
+  width: 150px;
 }
 
 
@@ -147,7 +149,7 @@ a:active {
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 18px;
     font-family: 'Work Sans', sans-serif;
     font-weight: 300;
 }
@@ -174,9 +176,9 @@ a:active {
 #leftpanel {
   position: absolute;
   z-index: 1012022;
-  top: 20px;
+  bottom: 0px;
   left: 10px;
-  width: 250px;
+  width: 270px;
 }
 
 
@@ -301,7 +303,7 @@ a:active {
   z-index: 101010;
   position: absolute;
   left: calc(50% - 150px);
-  bottom: 50px;
+  top: 155px;
   text-align: center;
   width: 300px;
   color: #fff;
@@ -320,7 +322,7 @@ a:active {
   z-index: 101010;
   position: absolute;
   left: 50%;
-  bottom: 50px;
+  top: 155px;
   margin-left: -250px;
   width: 500px;
   text-align: center;

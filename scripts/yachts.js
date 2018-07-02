@@ -821,11 +821,15 @@ function animateLine(timestamp) {
 // Define map behavior and callback functions.
 map.on("load", function(e) {
 
+  // Change MapBox attribution positions.
+  d3.select(".mapboxgl-ctrl-bottom-left").style("top", "2px");
+  d3.select(".mapboxgl-ctrl-bottom-right").style("top", "0px");
+
   // Add sliders
   getSliders();
 
   // Fit to these bounds.
-  map.fitBounds([[-167, -46], [88, 65]], {padding: {top: 120, bottom:10, left: 10, right: 10}});
+  map.fitBounds([[-167, -46], [88, 65]], {padding: {top: 100, bottom:10, left: 10, right: 10}});
 
   // ANIMATION
   // add the line which will be modified in the animation
@@ -927,9 +931,11 @@ map.on("load", function(e) {
   // click the button to pause or play
   pauseButton.addEventListener('click', function() {
       
-    // Hide Sidebar and controls.
+    // Hide Sidebar, controls, and info panel.
     d3.select("#sidebar").style("display", "none");
     d3.select("#controls").style("display", "none");
+    document.getElementById('info-collapsible').classList.remove('active');
+    d3.select("#info").style("display", "none");
 
     // Show Time.
     d3.select("#time").style("display", "block");
@@ -1113,6 +1119,7 @@ map.on("load", function(e) {
     } else {
       d3.select("#legend-content").style("display", "block");
     };
+
   });
 
   // Info Collapsible Click callback.
@@ -1123,12 +1130,17 @@ map.on("load", function(e) {
     } else {
       d3.select("#info").style("display", "block");
     };
+
   });
 
   // Destinations mode callback.
   d3.select("#destination-button").on("click", function () {
 
     d3.select("#controls").style("display", "block");
+
+    // Uncollapse Info Panel.
+    document.getElementById('info-collapsible').classList.add('active');
+    d3.select("#info").style("display", "block");
 
     // Hide Time.
     d3.select("#time").style("display", "none");
@@ -1172,6 +1184,9 @@ map.on("load", function(e) {
   // Routes mode callback.
   d3.select("#route-button").on("click", function () {
 
+    // Uncollapse Info Panel.
+    document.getElementById('info-collapsible').classList.add('active');
+    d3.select("#info").style("display", "block");
 
     // Hide Time.
     d3.select("#time").style("display", "none");
@@ -1534,7 +1549,8 @@ map.on("load", function(e) {
 
       // Zoom to center.
       if (!route_clicked) {
-        map.fitBounds([[-167, -46], [88, 65]]);
+        map.fitBounds([[-167, -46], [88, 65]], {padding: {top: 100, bottom:10, left: 10, right: 10}});
+
       }
 
 
@@ -1542,6 +1558,8 @@ map.on("load", function(e) {
       resetInfo();
     }
   });
+
+  
 
   // Legend Menu Filter Callbacks.
   d3.select("#select-y1").on("mouseover", function() {
