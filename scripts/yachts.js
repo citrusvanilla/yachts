@@ -50,15 +50,10 @@ function changeMediaNarrowMobile(x) {
 
 
   };
-
-
-
 };
 
 changeMediaNarrowMobile(isNarrowMobile); // Call listener function at run time
 isNarrowMobile.addListener(changeMediaNarrowMobile); // Attach listener function on state changes
-
-
 
 
 // ANIMATION VARS
@@ -839,8 +834,8 @@ function animateLine(timestamp) {
 map.on("load", function(e) {
 
   // Change MapBox attribution positions.
-  d3.select(".mapboxgl-ctrl-bottom-left").style("top", "2px");
-  d3.select(".mapboxgl-ctrl-bottom-right").style("top", "0px");
+  d3.select(".mapboxgl-ctrl-bottom-left").style("top", "4px");
+  d3.select(".mapboxgl-ctrl-bottom-right").style("right", "auto").style("left", "50%");
 
   // Add sliders
   getSliders();

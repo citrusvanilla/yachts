@@ -18,6 +18,9 @@ a:active {
   color: #08f;
 }
 
+html, body {
+  overflow: hidden;
+}
 
 /******************** DEVICE *************************/
 
