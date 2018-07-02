@@ -51,6 +51,28 @@ a:active {
   font-weight: 400;
 }
 
+#info-buttons {
+  text-align: center;
+}
+
+.mode-button {
+    width: 140px;
+    background-color: #003366;
+    border: 2px solid #80ccff;
+    border-radius: 5px;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.mode-button:hover {
+    background-color: #555;
+}
 
 /******************** MOBILE HEADER ****************/
 
@@ -63,25 +85,16 @@ a:active {
   top: 0px;
   width: 100%;
   z-index: 1000000;
+  text-align: center;
 }
 
 #modes {
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   display: inline-block;
 }
 
-.mode{
-    display: inline-block;
-    height: 28px;
-    line-height: 28px;
-    color: #eee;
-    border-radius: 2px;
-    z-index: 3;
-    cursor: pointer;
-    font-weight: 400;
-    margin-right: 10px;
-    padding: 5px 10px;
-}
+
 
 /******************** ANIMATION BUTTON ****************/
 
@@ -186,7 +199,6 @@ a:active {
 /******************** INFO *************************/
 
 #info {
- 
  background: rgba(12, 12, 12, 0.75);
  color: #eee;
  padding: 10px;
@@ -197,13 +209,11 @@ a:active {
  display: none;
 }
 
-
 #info-collapsible {
   position: relative;
   margin: 0px;
   font-family: 'Merriweather', serif;
 }
-
 
 #info-header {
  font-weight: 400;
@@ -213,8 +223,12 @@ a:active {
  font-family: 'Merriweather', serif;
 }
 
-
 #info-intro {
+  font-size: 13px;
+  line-height: 16px;
+}
+
+#info-intro-mobile {
   font-size: 13px;
   line-height: 16px;
 }
@@ -266,35 +280,10 @@ a:active {
   max-width: 100%;
 }
 
-
-#info-buttons {
-  text-align: center;
-}
-
-.mode-button {
-    width: 140px;
-    background-color: #003366;
-    border: 2px solid #80ccff;
-    border-radius: 5px;
-    color: white;
-    padding: 4px;
-    text-align: center;
-    display: inline;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    font-family: 'Work Sans', sans-serif;
-}
-
-.mode-button:hover {
-    background-color: #555;
-}
-
 #info-content-territory {
   font-size: 13px;
   display: none;
 }
-
 
 
 /******************** TIME *************************/
@@ -338,7 +327,6 @@ a:active {
 }
 
 
-
 /******************** MAPBOX *************************/
 
 #map {
@@ -372,24 +360,28 @@ a:active {
   #map {
     left: 0px;
     width: 100%;
+    bottom: 150px;
+    top: 0px;
+    height: auto;
   }
 
   #controls {
-    left: 50%;
+    top: 70px;
   }
 
   .mode-button {
     width: auto;
-    display: inline-block;
-    height: auto;
-    line-height: 28px;
-    color: #eee;
-    border-radius: 2px;
-    z-index: 3;
+    background-color: #003366;
+    border: 2px solid #80ccff;
+    border-radius: 5px;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    display: inline;
+    font-size: 16px;
+    margin: 10px;
     cursor: pointer;
-    font-weight: 400;
-    margin-right: 10px;
-    padding: 5px 10px;
+    font-family: 'Work Sans', sans-serif;
   }
 
   #sidebar {
@@ -397,12 +389,11 @@ a:active {
   }
 
   #time {
-    left: auto;
-    bottom: 100px;
+    top: 70px;
   }
 
-  #info {
-    top: auto;
+  #leftpanel {
+    height: 150px;
     left: 0px;
     bottom: 0px;
     width: calc(100% - 20px);

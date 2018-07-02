@@ -13,7 +13,7 @@ var map = new mapboxgl.Map({
 // Media Responsivity
 // Media - Narrow Desktop
 var media;
-var isNarrowDesktop = window.matchMedia("(max-width: 780px)");
+var isNarrowDesktop = window.matchMedia("(max-width: 780px) and (min-width: 650px)");
 
 function changeMediaNarrowDesktop(x) {
   if (x.matches) {
@@ -36,14 +36,23 @@ var isNarrowMobile = window.matchMedia("(max-width: 650px)");
 
 function changeMediaNarrowMobile(x) {
   if (x.matches) {
-    
-    // Hide Filter
-    d3.select("#sidebar").style("display", "none");
-
     document.getElementById('modes').appendChild(document.getElementById('route-button'));
     document.getElementById('modes').appendChild(document.getElementById('destination-button'));
     document.getElementById('modes').appendChild(document.getElementById('pause'));
+
+    d3.select("#info").style("display", "block");
   };
+
+  if (!x.matches) {
+    document.getElementById('info-buttons').appendChild(document.getElementById('route-button'));
+    document.getElementById('info-buttons').appendChild(document.getElementById('destination-button'));
+    document.getElementById('info-buttons').appendChild(document.getElementById('pause'));
+
+
+  };
+
+
+
 };
 
 changeMediaNarrowMobile(isNarrowMobile); // Call listener function at run time
@@ -634,6 +643,7 @@ function updateInfo(boat) {
 
     // Turn off the intro content.
     d3.select("#info-intro").style("display", "none");
+    d3.select("#info-intro-mobile").style("display", "none");
 
     // Get the yacht name.
     var boatName = boat;
@@ -686,6 +696,7 @@ function updateTerritory(feature) {
 
   // Turn off the intro content.
   d3.select("#info-intro").style("display", "none");
+  d3.select("#info-intro-mobile").style("display", "none");
 
   // Get the territory name.
   var territory = feature.properties['NAME'];
@@ -723,6 +734,8 @@ function resetInfo() {
   // Show intro info.
   if (isNarrowMobile.matches == false)
     d3.select("#info-intro").style("display", "block");
+  else
+    d3.select("#info-intro-mobile").style("display", "block");
 
   // Show Buttons.
   d3.select("#info-buttons").style("display", "block");
@@ -962,6 +975,12 @@ map.on("load", function(e) {
       resetTime = true;
       animateLine();
     };
+
+    if (isNarrowMobile.matches == true) {
+      d3.select("#info").style("display", "block");
+    };
+      
+
   });
 
   // reset startTime and progress once the tab loses or gains focus

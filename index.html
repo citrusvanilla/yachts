@@ -9,7 +9,7 @@
     <meta name="format-detection" content="telephone=no">
 
     <!-- TITLE -->
-    <title>Journies of the World's Most Expensive Yachts, 2017</title>
+    <title>A Year of Sailing: A Forbes exclusive look at the travels of the Billionair Yacht Club.</title>
 
     <!-- STYLE SHEETS -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,600" rel="stylesheet">
@@ -32,9 +32,10 @@
 
     <!-- HEADING -->
     <div id='heading'>
-      <div id='title'>A Year of Sailing</div>
 
-      <div id='subtitle'>A Forbes exclusive look at the travels of the Billionaire Yacht Club.</div>
+      <div id='title' class='desktop'>A Year of Sailing</div>
+
+      <div id='subtitle' class='desktop'>A Forbes exclusive look at the travels of the Billionaire Yacht Club.</div>
 
       <div id='info-buttons'>
         <button class="mode-button" id="route-button">Routes</button>
@@ -147,7 +148,7 @@
     <div id='leftpanel'>
 
       <!-- INFO-COLLAPSEABLE -->
-      <button class="collapsible active" id="info-collapsible">Yacht/Destination Info:</button>
+      <button class="collapsible active desktop" id="info-collapsible">Yacht/Destination Info:</button>
 
       <!-- INFO -->
       <div id='info'>
@@ -161,6 +162,13 @@
         <div id='info-intro' class='desktop'>
           <p>
             This is an interactive map that let's you explore the journies of the world's Billionaire Yacht Club in 2017.  You can hover over routes and destionations to view more information.  Routes can be filtered by month or yacht by using the sliders and legend.  This panel and the legend can be hidden by clicking on the titles.
+          </p>
+        </div>
+
+        <!-- INFO/INTRO -->
+        <div id='info-intro-mobile' class='mobile'>
+          <p>
+            This is an interactive map that let's you explore the journies of the world's Billionaire Yacht Club in 2017.  You can click on routes and destionations to view more information.  Routes can be filtered by month by using the slider above.
           </p>
         </div>
         
@@ -192,7 +200,7 @@
             </div>
 
             <!-- INFO/LENGTH -->
-            <div id='info-length' class='param'>
+            <div id='info-length' class='param desktop'>
                 <div id='info-length-caption' class='param-caption'>Length: </div>
                 <div id='info-length-value' class='param-value'></div>
             </div>
@@ -204,7 +212,7 @@
             </div>
 
             <!-- INFO/FLAG -->
-            <div id='info-flag' class='param'>
+            <div id='info-flag' class='param desktop'>
                 <div id='info-flag-caption' class='param-caption'>Flag: </div>
                 <div id='info-flag-value' class='param-value'></div>
             </div>
