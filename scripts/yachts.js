@@ -834,9 +834,11 @@ function animateLine(timestamp) {
 map.on("load", function(e) {
 
   // Change MapBox attribution positions.
-  d3.select(".mapboxgl-ctrl-bottom-left").style("top", "4px");
-  d3.select(".mapboxgl-ctrl-bottom-right").style("right", "auto").style("left", "50%");
-
+  if (!isNarrowMobile.matches) {
+    d3.select(".mapboxgl-ctrl-bottom-left").style("top", "4px");
+    d3.select(".mapboxgl-ctrl-bottom-right").style("right", "auto").style("left", "50%");
+  };
+  
   // Add sliders
   getSliders();
 
