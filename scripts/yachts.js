@@ -655,7 +655,6 @@ function updateInfo(boat) {
     d3.select("#info-port-value").text(yachtData[boatName]['home_port']);
     d3.select("#info-flag-value").text(yachtData[boatName]['flag']);
     d3.select("#info-birthdate-value").text(yachtData[boatName]['date_birthed']);
-    d3.select("#info-cost-value").text(yachtData[boatName]['cost']);
     d3.select("#info-length-value").text(yachtData[boatName]['length']);
     d3.select("#info-topdestinations1-value").text(yachtData[boatName]['top1']);
     d3.select("#info-topdestinations2-value").text(yachtData[boatName]['top2']);
@@ -735,6 +734,51 @@ function resetInfo() {
   // Show Buttons.
   d3.select("#info-buttons").style("display", "block");
 };
+
+function drawAni(day_num) {
+    filter = ["all", ["==", "IS_DUPLICATE", 0], ["==", "territorial_waters" , 1], ["<=", "order", day_num]];
+    map.setFilter("destinations-heat", filter);
+
+    for (key in line_animation_geojson.features) {
+      x = gpsDataLine[0]['features'][key]['geometry']['coordinates'][day_num][0];
+      y = gpsDataLine[0]['features'][key]['geometry']['coordinates'][day_num][1];
+      point_animation_geojson.features[key].geometry.coordinates = [x,y];
+      line_animation_geojson.features[key].geometry.coordinates.push([x, y]);
+    };
+
+    map.getSource('line-animation').setData(line_animation_geojson);
+    map.getSource('point-animation').setData(point_animation_geojson);
+
+    if (Math.floor(day_num/30) == 0) {
+      d3.select("#time").text("January 2017");
+    } else if (Math.floor(day_num/30) == 1) {
+      d3.select("#time").text("February 2017");
+    } else if (Math.floor(day_num/30) == 2) {
+      d3.select("#time").text("March 2017");
+    } else if (Math.floor(day_num/30) == 3) {
+      d3.select("#time").text("April 2017");
+    } else if (Math.floor(day_num/30) == 4) {
+      d3.select("#time").text("May 2017");
+    } else if (Math.floor(day_num/30) == 5) {
+      d3.select("#time").text("June 2017");
+    } else if (Math.floor(day_num/30) == 6) {
+      d3.select("#time").text("July 2017");
+    } else if (Math.floor(day_num/30) == 7) {
+      d3.select("#time").text("August 2017");
+    } else if (Math.floor(day_num/30) == 8) {
+      d3.select("#time").text("September 2017");
+    } else if (Math.floor(day_num/30) == 9) {
+      d3.select("#time").text("October 2017");
+    } else if (Math.floor(day_num/30) == 10) {
+      d3.select("#time").text("November 2017");
+    } else if (Math.floor(day_num/30) == 11) {
+      d3.select("#time").text("December 2017");
+    };
+
+}
+
+
+
 
 // animated in a circle as a sine wave along the map.
 function animateLine(timestamp) {
@@ -976,8 +1020,6 @@ map.on("load", function(e) {
     if (isNarrowMobile.matches == true) {
       d3.select("#info").style("display", "block");
     };
-      
-
   });
 
   // reset startTime and progress once the tab loses or gains focus
@@ -1578,8 +1620,6 @@ map.on("load", function(e) {
       resetInfo();
     }
   });
-
-  
 
   // Legend Menu Filter Callbacks.
   d3.select("#select-y1").on("mouseover", function() {
