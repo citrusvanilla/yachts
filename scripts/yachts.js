@@ -1,5 +1,5 @@
 // MB Public Token
-mapboxgl.accessToken = "pk.eyJ1IjoiZGFucmV2aXR0ZSIsImEiOiJjamRxNHZtcmowMG8xMzRwa2NlbnB0eG1oIn0.JPstGIPtHL9R4NjMDbF2iw";
+mapboxgl.accessToken = "pk.eyJ1IjoiZGFucmV2aXR0ZSIsImEiOiJjazF2MXc0YmgxN3U3M21wcWViNjJ0OWVyIn0.UTmqmFzB4umsp5KUHPKpgg";
 
 // Map
 var map = new mapboxgl.Map({
